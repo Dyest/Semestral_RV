@@ -26,15 +26,14 @@ public class MoveController : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        characterController.enabled = true;
 
     }
     // Update is called once per frame
     void Update()
     {
-     //   transform.eulerAngles = new Vector3(transform.eulerAngles.x, myCamera.eulerAngles.y, transform.eulerAngles.z);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, myCamera.eulerAngles.y, transform.eulerAngles.z);
         entradasJogador = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-   //     entradasJogador = transform.TransformDirection(entradasJogador);
+        entradasJogador = transform.TransformDirection(entradasJogador);
         characterController.Move(entradasJogador * Time.deltaTime * velocidadeJogador);
         estaNoChao = Physics.CheckSphere(verificadorChao.position, 0.3f, cenarioMask);
 
@@ -45,7 +44,7 @@ public class MoveController : MonoBehaviour
             velocidadeVertical = (float)Math.Sqrt(alturaDoSalto * -2f * gravidade);
         }
 
-        if(estaNoChao && velocidadeJogador < 0)
+        if(estaNoChao && velocidadeVertical < 0)
         {
             velocidadeVertical = -1f;
         }
