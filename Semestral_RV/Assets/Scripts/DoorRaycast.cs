@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,19 +15,22 @@ public class DoorRaycast : MonoBehaviour
     private bool isCrosshairActive;
     private bool doOnce;
     private const string interactableTag = "InteractiveObject";
+    private bool canInteract = true; // Adicionado para controlar a interação
 
     private void Update()
     {
+        if (!canInteract) return; // Se não puder interagir, retorna
+
         RaycastHit hit;
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
 
-        int mask = 1 << LayerMask.NameToLayer(excludeLayerName)  | layerMaskInteract.value;
+        int mask = 1 << LayerMask.NameToLayer(excludeLayerName) | layerMaskInteract.value;
 
         if (Physics.Raycast(transform.position, fwd, out hit, rayLength, mask))
         {
-            if(hit.collider.CompareTag(interactableTag))
+            if (hit.collider.CompareTag(interactableTag))
             {
-                if(!doOnce)
+                if (!doOnce)
                 {
                     raycastedObj = hit.collider.gameObject.GetComponent<MyDoorController>();
                     CrosshairChange(true);
@@ -37,16 +39,15 @@ public class DoorRaycast : MonoBehaviour
                 isCrosshairActive = true;
                 doOnce = true;
 
-                if(Input.GetKeyDown(openDoorKey))
+                if (Input.GetKeyDown(openDoorKey))
                 {
-                    raycastedObj.PlayAnimation();
+                    StartCoroutine(InteractWithDoor()); // Inicia a coroutine para interagir com a porta
                 }
             }
         }
-
         else
         {
-            if(isCrosshairActive)
+            if (isCrosshairActive)
             {
                 CrosshairChange(false);
                 doOnce = false;
@@ -54,7 +55,18 @@ public class DoorRaycast : MonoBehaviour
         }
     }
 
-    void CrosshairChange (bool on)
+    private IEnumerator InteractWithDoor()
+    {
+        canInteract = false; // Desativa a interação
+        raycastedObj.PlayAnimation();
+
+        // Aguarda até a animação terminar
+        yield return new WaitForSeconds(raycastedObj.GetAnimationLength());
+
+        canInteract = true; // Reativa a interação
+    }
+
+    void CrosshairChange(bool on)
     {
         if (on && !doOnce)
         {
@@ -66,5 +78,4 @@ public class DoorRaycast : MonoBehaviour
             isCrosshairActive = false;
         }
     }
-
 }

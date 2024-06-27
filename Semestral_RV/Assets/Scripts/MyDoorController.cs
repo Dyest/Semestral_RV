@@ -1,20 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MyDoorController : MonoBehaviour
 {
-   private Animator doorAnim;
+    private Animator doorAnim;
     private bool doorOpen = false;
 
     private void Awake()
     {
-        doorAnim = gameObject.GetComponent<Animator>(); 
+        doorAnim = gameObject.GetComponent<Animator>();
     }
 
     public void PlayAnimation()
     {
-        if(!doorOpen)
+        if (!doorOpen)
         {
             doorAnim.Play("BathroomDoorOpen", 0, 0.0f);
             doorOpen = true;
@@ -24,5 +22,12 @@ public class MyDoorController : MonoBehaviour
             doorAnim.Play("BathroomDoorClose", 0, 0.0f);
             doorOpen = false;
         }
+    }
+
+    public float GetAnimationLength()
+    {
+        // Retorna a duração da animação atualmente em reprodução
+        AnimatorStateInfo animState = doorAnim.GetCurrentAnimatorStateInfo(0);
+        return animState.length;
     }
 }
