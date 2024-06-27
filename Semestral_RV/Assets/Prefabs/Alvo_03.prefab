@@ -299,27 +299,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -331,7 +331,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 68e071c1ec7f7794fa980a9cfe0f6724, type: 2}
     - target: {fileID: -927199367670048503, guid: 87ddf1f3dcd40934ebb751bc8a72871a, type: 3}
       propertyPath: m_Name
-      value: Target vol 3 Variant
+      value: Alvo_03
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
