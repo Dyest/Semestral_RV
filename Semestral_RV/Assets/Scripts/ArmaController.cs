@@ -11,35 +11,55 @@ public class ArmaController : MonoBehaviour
     private LineRenderer laser;
     private Camera fpsCamera;
     public Image mira;
+    public GameObject chave;
 
     void Start()
     {
         laser = GetComponent<LineRenderer>();
         som = GetComponent<AudioSource>();
         fpsCamera = GetComponentInParent<Camera>();
-        som.enabled = false;
+        chave.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.Mouse0)){
-            som.enabled = true;
+        // Verificação do Raycast para mudar a cor da mira
+        Vector3 origemRaio = fpsCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
 
-            Vector3 origemRaio = fpsCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
-            RaycastHit hit;
+        if (Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance))
+        {
+            if (hit.collider.CompareTag("Alvo"))
+            {
+                mira.material.color = Color.red;
+            }
+            else
+            {
+                mira.material.color = Color.white;
+            }
+        }
+        else
+        {
+            mira.material.color = Color.white;
+        }
 
+        // Disparo
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            som.Play();
             laser.SetPosition(0, inicioTiro.transform.position);
 
-            if(Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance)){
+            if (Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance))
+            {
                 laser.SetPosition(1, hit.point);
                 if (hit.collider.CompareTag("Alvo"))
                 {
-                    mira.color = Color.red;
-                }else{
-                    mira.color = Color.white;
+                    Destroy(hit.collider.gameObject, 0.5f);
                 }
-            }else{
+            }
+            else
+            {
                 laser.SetPosition(1, origemRaio + (fpsCamera.transform.forward * alcance));
             }
         }
