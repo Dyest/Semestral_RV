@@ -6,6 +6,7 @@ public class AlvosController : MonoBehaviour
 {
     public GameObject[] alvos; 
     private bool pegouArma = true;
+    public GameObject chave;
 
     private Vector3[] posicoes1 = {
         new Vector3(8.46000004f, 0.0700000003f, 29.4400005f),
@@ -39,10 +40,15 @@ public class AlvosController : MonoBehaviour
         Quaternion.Euler(270, 270, 0)
     };
 
+    void Start(){
+        chave.SetActive(false);
+    }
+
     void Update()
     {
         if (pegouArma)
         {
+            chave.SetActive(true);
             if (alvos.Length == 4)
             {
                 for (int i = 0; i < alvos.Length; i++)

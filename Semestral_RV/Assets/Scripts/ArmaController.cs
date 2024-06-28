@@ -6,19 +6,17 @@ using UnityEngine.UI;
 public class ArmaController : MonoBehaviour
 {
     public int alcance = 40;
-    public Transform inicioTiro;
+    //public Transform inicioTiro;
     private AudioSource som;
-    private LineRenderer laser;
+    //private LineRenderer laser;
     private Camera fpsCamera;
     public Image mira;
-    public GameObject chave;
 
     void Start()
     {
-        laser = GetComponent<LineRenderer>();
+        //laser = GetComponent<LineRenderer>();
         som = GetComponent<AudioSource>();
         fpsCamera = GetComponentInParent<Camera>();
-        chave.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,28 +37,20 @@ public class ArmaController : MonoBehaviour
                 mira.material.color = Color.white;
             }
         }
-        else
-        {
-            mira.material.color = Color.white;
-        }
 
         // Disparo
         if (Input.GetKey(KeyCode.Mouse0))
         {
             som.Play();
-            laser.SetPosition(0, inicioTiro.transform.position);
+            //laser.SetPosition(0, inicioTiro.transform.position);
 
             if (Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance))
             {
-                laser.SetPosition(1, hit.point);
+                //laser.SetPosition(1, hit.point);
                 if (hit.collider.CompareTag("Alvo"))
                 {
                     Destroy(hit.collider.gameObject, 0.5f);
                 }
-            }
-            else
-            {
-                laser.SetPosition(1, origemRaio + (fpsCamera.transform.forward * alcance));
             }
         }
     }
