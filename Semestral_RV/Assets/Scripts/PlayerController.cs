@@ -17,18 +17,20 @@ public class MoveController : MonoBehaviour
     [SerializeField] private float alturaDoSalto = 1f;
     private float gravidade = -9.81f;
     private float velocidadeVertical;
+    private AudioSource audioSource;
+    private bool estaAndando = false;
 
     private void Awake()
     {
         myCamera = Camera.main.transform;
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-
     }
-    // Update is called once per frame
+
     void Update()
     {
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, myCamera.eulerAngles.y, transform.eulerAngles.z);
@@ -37,31 +39,55 @@ public class MoveController : MonoBehaviour
         characterController.Move(entradasJogador * Time.deltaTime * velocidadeJogador);
         estaNoChao = Physics.CheckSphere(verificadorChao.position, 0.3f, cenarioMask);
 
-
-        //pular
-        if(Input.GetKeyDown(KeyCode.Space) && estaNoChao)
+        // pular
+        if (Input.GetKeyDown(KeyCode.Space) && estaNoChao)
         {
             velocidadeVertical = (float)Math.Sqrt(alturaDoSalto * -2f * gravidade);
         }
 
-        if(estaNoChao && velocidadeVertical < 0)
+        if (estaNoChao && velocidadeVertical < 0)
         {
             velocidadeVertical = -1f;
         }
 
-        //correr
+        // correr
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            
             characterController.Move(entradasJogador * Time.deltaTime * velocidadeCorrendo);
-        }  
+        }
 
-        //gravidade
+        // gravidade
         velocidadeVertical += gravidade * Time.deltaTime;
         characterController.Move(new Vector3(0, velocidadeVertical, 0) * Time.deltaTime);
 
-
+        // tocar sons de passos
+        if (entradasJogador.magnitude > 0 && estaNoChao)
+        {
+            if (!estaAndando)
+            {
+                estaAndando = true;
+                StartCoroutine(TocarPassos());
+            }
+        }
+        else
+        {
+            estaAndando = false;
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
+    private IEnumerator TocarPassos()
+    {
+        while (estaAndando)
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+            yield return new WaitForSeconds(0.5f); // Ajuste o intervalo conforme necessário
+        }
+    }
 }
-
