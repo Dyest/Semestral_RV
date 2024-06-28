@@ -8,41 +8,76 @@ public class DoorRaycast : MonoBehaviour
     [SerializeField] private LayerMask layerMaskInteract;
     [SerializeField] private string excludeLayerName = null;
 
-    private MyDoorController raycastedObj;
+    private MyDoorController raycastedDoor;
+    private GameObject raycastedItem;
 
-    [SerializeField] private KeyCode openDoorKey = KeyCode.E;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private Image crosshair = null;
+    [SerializeField] private Canvas InteractCanvas = null; // Canvas para "interagir com a porta"
+    [SerializeField] private Canvas itemCanvas = null; // Canvas para "interagir com a chave" // Texto do Canvas para "interagir com a chave"
+
     private bool isCrosshairActive;
     private bool doOnce;
-    private const string interactableTag = "InteractiveObject";
-    private bool canInteract = true; // Adicionado para controlar a interação
+    private const string doorTag = "InteractiveObject";
+    private const string itemTag = "Key";
+    private bool canInteract = true;
 
     private void Update()
+{
+    if (!canInteract) return;
+
+    RaycastHit hit;
+    Vector3 fwd = transform.TransformDirection(Vector3.forward);
+
+    int mask = 1 << LayerMask.NameToLayer(excludeLayerName) | layerMaskInteract.value;
+
+    if (Physics.Raycast(transform.position, fwd, out hit, rayLength, mask))
     {
-        if (!canInteract) return; // Se não puder interagir, retorna
-
-        RaycastHit hit;
-        Vector3 fwd = transform.TransformDirection(Vector3.forward);
-
-        int mask = 1 << LayerMask.NameToLayer(excludeLayerName) | layerMaskInteract.value;
-
-        if (Physics.Raycast(transform.position, fwd, out hit, rayLength, mask))
+        if (hit.collider.CompareTag(doorTag))
         {
-            if (hit.collider.CompareTag(interactableTag))
+            if (!doOnce)
             {
-                if (!doOnce)
+                raycastedDoor = hit.collider.gameObject.GetComponent<MyDoorController>();
+                if (raycastedDoor != null)
                 {
-                    raycastedObj = hit.collider.gameObject.GetComponent<MyDoorController>();
                     CrosshairChange(true);
                 }
+            }
 
-                isCrosshairActive = true;
-                doOnce = true;
+            isCrosshairActive = true;
+            doOnce = true;
 
-                if (Input.GetKeyDown(openDoorKey))
+            InteractCanvas.enabled = true; // Ativa o Canvas da porta
+            itemCanvas.enabled = false; // Desativa o Canvas da chave
+
+            if (Input.GetKeyDown(interactKey))
+            {
+                StartCoroutine(InteractWithDoor());
+            }
+        }
+        else if (hit.collider.CompareTag(itemTag))
+        {
+            if (!doOnce)
+            {
+                raycastedItem = hit.collider.gameObject;
+                if (raycastedItem != null)
                 {
-                    StartCoroutine(InteractWithDoor()); // Inicia a coroutine para interagir com a porta
+                    CrosshairChange(true);
                 }
+            }
+
+            isCrosshairActive = true;
+            doOnce = true;
+
+            InteractCanvas.enabled = true; // Ativa o Canvas de interação
+            itemCanvas.enabled = false; // Desativa o Canvas da chave
+
+            if (Input.GetKeyDown(interactKey))
+            {
+                StartCoroutine(CollectItem());
+
+                // Ativar o itemCanvas após a coleta
+                itemCanvas.enabled = true;
             }
         }
         else
@@ -52,19 +87,45 @@ public class DoorRaycast : MonoBehaviour
                 CrosshairChange(false);
                 doOnce = false;
             }
+            InteractCanvas.enabled = false; 
+            itemCanvas.enabled = false; 
         }
     }
+    else
+    {
+        if (isCrosshairActive)
+        {
+            CrosshairChange(false);
+            doOnce = false;
+        }
+        InteractCanvas.enabled = false; 
+        itemCanvas.enabled = false; 
+    }
+}
 
     private IEnumerator InteractWithDoor()
     {
-        canInteract = false; // Desativa a interação
-        raycastedObj.PlayAnimation();
-
-        // Aguarda até a animação terminar
-        yield return new WaitForSeconds(raycastedObj.GetAnimationLength());
-
-        canInteract = true; // Reativa a interação
+        canInteract = false;
+        raycastedDoor.PlayAnimation();
+        yield return new WaitForSeconds(raycastedDoor.GetAnimationLength());
+        canInteract = true;
     }
+
+    private IEnumerator CollectItem()
+{
+    canInteract = false;
+
+    if (raycastedItem != null)
+    {
+        raycastedItem.SetActive(false);
+    }
+
+    yield return new WaitForSeconds(2f);
+    itemCanvas.enabled = false;
+
+    canInteract = true;
+}
+
 
     void CrosshairChange(bool on)
     {
