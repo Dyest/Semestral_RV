@@ -7,13 +7,30 @@ public class Carregar : MonoBehaviour
 {
     public GameObject Jogador;
     public string LoadScene;
+    bool podeInteragir = false;
+
+    void Update()
+    {
+        if (podeInteragir && Input.GetKeyDown(KeyCode.E))
+        {
+            Jogador.GetComponent<SavePos>().SalvarLocalizacao();
+            SceneManager.LoadScene(LoadScene);
+        }
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == Jogador) // Verifica se o jogador entrou no trigger
+        if (other.CompareTag("Player"))
         {
-            Jogador.GetComponent<SavePos>().SalvarLocalizacao(); // Salva a posição do jogador
-            SceneManager.LoadScene(LoadScene); // Carrega a nova cena
+            podeInteragir = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            podeInteragir = false;
         }
     }
 }

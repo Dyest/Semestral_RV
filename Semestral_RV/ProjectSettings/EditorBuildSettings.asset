@@ -5,10 +5,16 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TESTES/Teste2.unity
     guid: b9895ce9504d76344b524866d22dca2b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TESTES/Teste1.unity
     guid: daaf747a882516a4080702accdaf826b
+  - enabled: 1
+    path: Assets/Scenes/MainScene.unity
+    guid: 53d905c0fca6b4648aca9ab36e8e3724
+  - enabled: 1
+    path: Assets/Scenes/Banheiro_Marco.unity
+    guid: 31aabbc2007c6fb4b895a2065e4807eb
   m_configObjects: {}

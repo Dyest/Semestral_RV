@@ -5,32 +5,44 @@ using UnityEngine.SceneManagement;
 
 public class SavePos : MonoBehaviour
 {
-    private string NomeCenaAtual;
+    string NomeCenaAtual;
 
     void Awake()
     {
         NomeCenaAtual = SceneManager.GetActiveScene().name;
-        CarregarPosicao(); // Carregar a posição ao iniciar a cena
+    }
+
+    void Start()
+    {
+        if (GameManager.Instance != null)
+        {
+            transform.position = GameManager.Instance.playerPosition;
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (GameManager.Instance != null)
+        {
+            transform.position = GameManager.Instance.playerPosition;
+        }
     }
 
     public void SalvarLocalizacao()
     {
-        PlayerPrefs.SetFloat(NomeCenaAtual + "X", transform.position.x);
-        PlayerPrefs.SetFloat(NomeCenaAtual + "Y", transform.position.y);
-        PlayerPrefs.SetFloat(NomeCenaAtual + "Z", transform.position.z);
-    }
-
-    private void CarregarPosicao()
-    {
-        if (PlayerPrefs.HasKey(NomeCenaAtual + "X") && 
-            PlayerPrefs.HasKey(NomeCenaAtual + "Y") && 
-            PlayerPrefs.HasKey(NomeCenaAtual + "Z"))
+        if (GameManager.Instance != null)
         {
-            transform.position = new Vector3(
-                PlayerPrefs.GetFloat(NomeCenaAtual + "X"), 
-                PlayerPrefs.GetFloat(NomeCenaAtual + "Y"), 
-                PlayerPrefs.GetFloat(NomeCenaAtual + "Z")
-            );
+            GameManager.Instance.playerPosition = transform.position;
         }
     }
 }
