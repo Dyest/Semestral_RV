@@ -5,8 +5,9 @@ using UnityEngine;
 public class AlvosController : MonoBehaviour
 {
     public GameObject[] alvos; 
-    private bool pegouArma = true;
+    public bool alvosCriados = false;
     public GameObject chave;
+    public bool pegouArma = false;
 
     private Vector3[] posicoes1 = {
         new Vector3(8.46000004f, 0.0700000003f, 29.4400005f),
@@ -44,41 +45,40 @@ public class AlvosController : MonoBehaviour
         chave.SetActive(false);
     }
 
+
     void Update()
     {
-        if (pegouArma)
+        if (!alvosCriados)
         {
             chave.SetActive(true);
-            if (alvos.Length == 4)
-            {
-                for (int i = 0; i < alvos.Length; i++)
-                {
-                    Vector3[] posicoes;
-                    switch (i)
-                    {
-                        case 0:
-                            posicoes = posicoes1;
-                            break;
-                        case 1:
-                            posicoes = posicoes2;
-                            break;
-                        case 2:
-                            posicoes = posicoes3;
-                            break;
-                        case 3:
-                            posicoes = posicoes4;
-                            break;
-                        default:
-                            posicoes = posicoes1; 
-                            break;
-                    }
+            alvosCriados = true;
 
-                    Vector3 posicaoAleatoria = posicoes[Random.Range(0, posicoes.Length)];
-                    Quaternion rotacaoDesejada = rotacoes[i];
-                    
-                    Instantiate(alvos[i], posicaoAleatoria, rotacaoDesejada);
+            for (int i = 0; i < alvos.Length; i++)
+            {
+                Vector3[] posicoes;
+                switch (i)
+                {
+                    case 0:
+                        posicoes = posicoes1;
+                        break;
+                    case 1:
+                        posicoes = posicoes2;
+                        break;
+                    case 2:
+                        posicoes = posicoes3;
+                        break;
+                    case 3:
+                        posicoes = posicoes4;
+                        break;
+                    default:
+                        posicoes = posicoes1; 
+                        break;
                 }
-                pegouArma = false;
+
+                Vector3 posicaoAleatoria = posicoes[Random.Range(0, posicoes.Length)];
+                Quaternion rotacaoDesejada = rotacoes[i];
+                
+                Instantiate(alvos[i], posicaoAleatoria, rotacaoDesejada);
             }
         }
     }

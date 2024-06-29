@@ -2,54 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ArmaController : MonoBehaviour
 {
-    public int alcance = 40;
-    //public Transform inicioTiro;
+    public int alcance = 10;
     private AudioSource som;
-    //private LineRenderer laser;
-    private Camera fpsCamera;
+    public Camera fpsCamera;
     public Image mira;
+    public bool pegouChave = false;
+    public AlvosController alvosController;
+    public GameObject arma;
+
+    public Canvas interagir;
+    public Canvas coleta;
 
     void Start()
     {
-        //laser = GetComponent<LineRenderer>();
         som = GetComponent<AudioSource>();
-        fpsCamera = GetComponentInParent<Camera>();
+        interagir.enabled = false;
+        coleta.enabled = false;
+        arma.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Verificação do Raycast para mudar a cor da mira
         Vector3 origemRaio = fpsCamera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance))
-        {
-            if (hit.collider.CompareTag("Alvo"))
-            {
+        if (Physics.Raycast(origemRaio, 
+                            fpsCamera.transform.forward, 
+                            out hit, alcance)){
+            if (hit.collider.CompareTag("Alvo") && alvosController.pegouArma == true){
                 mira.material.color = Color.red;
-            }
-            else
-            {
+            }else if(hit.collider.CompareTag("Arma") ||
+                hit.collider.CompareTag("Key")){
+                    mira.material.color = Color.red;
+                    interagir.enabled = true;
+            }else{
                 mira.material.color = Color.white;
+                interagir.enabled = false;;
             }
         }
 
-        // Disparo
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0) && alvosController.pegouArma == true)
         {
             som.Play();
-            //laser.SetPosition(0, inicioTiro.transform.position);
-
-            if (Physics.Raycast(origemRaio, fpsCamera.transform.forward, out hit, alcance))
-            {
-                //laser.SetPosition(1, hit.point);
-                if (hit.collider.CompareTag("Alvo"))
-                {
+            Debug.Log("1");
+            if (Physics.Raycast(origemRaio, 
+                                fpsCamera.transform.forward, 
+                                out hit, alcance)){
+                if (hit.collider.CompareTag("Alvo")){
                     Destroy(hit.collider.gameObject, 0.5f);
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.E)){
+            if (Physics.Raycast(origemRaio, 
+                                fpsCamera.transform.forward, 
+                                out hit, alcance)){
+                if (hit.collider.CompareTag("Key")){
+                    pegouChave = true;
+                    coleta.enabled = true;
+                    Destroy(hit.collider.gameObject);
+                }
+                if (hit.collider.CompareTag("Arma")){
+                    alvosController.pegouArma = true;
+                    arma.SetActive(true);
+                    Destroy(hit.collider.gameObject); 
                 }
             }
         }
