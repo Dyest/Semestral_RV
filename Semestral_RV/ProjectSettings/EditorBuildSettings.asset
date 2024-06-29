@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Banheiro_Marco.unity
     guid: 31aabbc2007c6fb4b895a2065e4807eb
+  - enabled: 1
+    path: Assets/Scenes/SalaL16.unity
+    guid: 89d150de5077ab84f83f1ccc812a6ffc
   m_configObjects: {}
