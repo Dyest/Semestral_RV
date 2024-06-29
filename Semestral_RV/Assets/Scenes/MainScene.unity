@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009021291, g: 0.014638073, b: 0.026561715, a: 1}
+  m_IndirectSpecularColor: {r: 0.009021311, g: 0.0146381, b: 0.026561737, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3333,6 +3333,91 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4261936370815586, guid: 90c05f8deed8940408dacffe39ac83ce, type: 3}
   m_PrefabInstance: {fileID: 592327390}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &474904890
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 370930730476081434, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: Jogador
+      value: 
+      objectReference: {fileID: 1711420065}
+    - target: {fileID: 370930730476081434, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: LoadScene
+      value: Banheiro_Marco
+      objectReference: {fileID: 0}
+    - target: {fileID: 3873486566330102207, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.39804494
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.24531163
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 74.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 117.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575783356700013929, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4961518207409485329, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_Size.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5124523251541575624, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8647994249602197171, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
+      propertyPath: m_Name
+      value: Plane (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eb599b4f7c7c1d9488667f37561d2508, type: 3}
 --- !u!4 &475924097 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8969971835649028076, guid: 4e661a4b9cf2fac4dbc610ceb59e77b8, type: 3}
@@ -12383,4 +12468,5 @@ SceneRoots:
   - {fileID: 1636793408}
   - {fileID: 868272059}
   - {fileID: 1745698304}
+  - {fileID: 474904890}
   - {fileID: 203657169}
