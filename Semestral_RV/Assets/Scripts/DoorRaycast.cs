@@ -127,7 +127,7 @@ public class DoorRaycast : MonoBehaviour
         }
 
         // Define chavePortao como true
-        ChavePortaoController.chavePortao = true;
+        ChavePortaoController.chaveSala = true;
 
         yield return new WaitForSeconds(2f);
         itemCanvas.enabled = false;

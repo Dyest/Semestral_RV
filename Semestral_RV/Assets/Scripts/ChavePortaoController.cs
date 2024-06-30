@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChavePortaoController : MonoBehaviour
 {
+    public static bool chaveSala = false;
     public static bool chavePortao = false;
     public static bool arma = false;
 

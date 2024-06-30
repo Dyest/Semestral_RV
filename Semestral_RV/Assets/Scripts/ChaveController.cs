@@ -15,6 +15,7 @@ public class ChaveController : MonoBehaviour
     void Update(){
         if (GameObject.FindGameObjectsWithTag("Alvo").Length == 0){
             chave.SetActive(true);
+            
         }
     }
 }

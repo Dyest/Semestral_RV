@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Carregar2Ana : MonoBehaviour
+public class Carregar3Portão : MonoBehaviour
 {
     public GameObject Jogador;
     public string LoadScene;
@@ -11,7 +11,7 @@ public class Carregar2Ana : MonoBehaviour
 
     void Update()
     {
-        if (podeInteragir && Input.GetKeyDown(KeyCode.E) && ChavePortaoController.chaveSala)
+        if (podeInteragir && Input.GetKeyDown(KeyCode.E) && ChavePortaoController.chavePortao)
         {
             Jogador.GetComponent<SavePos>().SalvarLocalizacao();
             SceneManager.LoadScene(LoadScene);
