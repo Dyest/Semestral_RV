@@ -5,4 +5,5 @@ using UnityEngine;
 public class ChavePortaoController : MonoBehaviour
 {
     public static bool chavePortao = false;
+
 }
