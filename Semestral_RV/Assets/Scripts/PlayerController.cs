@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MoveController : MonoBehaviour
 {
@@ -32,7 +31,16 @@ public class MoveController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         jorginhoController = FindObjectOfType<JorginhoController>();
-   
+
+        // Verifica se o collider deve estar ativo
+        if (PlayerPrefs.GetInt("FirstColliderActivated", 0) == 1)
+        {
+            GameObject firstCollider = GameObject.FindGameObjectWithTag("FirstCollider");
+            if (firstCollider != null)
+            {
+                firstCollider.SetActive(false);
+            }
+        }
     }
 
     void Update()
@@ -85,13 +93,20 @@ public class MoveController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("FirstCollider"))
+        if (other.CompareTag("FirstCollider") && !ChavePortaoController.chavePortao)
         {
             jorginhoController.Collider1Scene();
             other.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("FirstColliderActivated", 1); // Salva o estado
+        }
+
+        if (other.CompareTag("SecondCollider") && ChavePortaoController.chavePortao)
+        {
+            jorginhoController.Collider2Scene();
+            other.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("SecondColliderActivated", 1); // Salva o estado
         }
     }
-
 
     private IEnumerator TocarPassos()
     {
