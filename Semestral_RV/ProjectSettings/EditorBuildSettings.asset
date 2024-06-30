@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SalaL16.unity
     guid: 89d150de5077ab84f83f1ccc812a6ffc
+  - enabled: 1
+    path: Assets/Scenes/GameWin.unity
+    guid: b78334f802790ff4b9ca46f572a1d40a
+  - enabled: 1
+    path: Assets/Scenes/GameOver.unity
+    guid: 2765057d5b810704789d61213cefd6e8
   m_configObjects: {}

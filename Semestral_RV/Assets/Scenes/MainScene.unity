@@ -14721,7 +14721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Jogador: {fileID: 1711420065}
-  LoadScene: SalaL16
+  LoadScene: GameWin
 --- !u!1 &557964082
 GameObject:
   m_ObjectHideFlags: 0
