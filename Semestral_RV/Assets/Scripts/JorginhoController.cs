@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class JorginhoController : MonoBehaviour
 {
@@ -13,6 +14,26 @@ public class JorginhoController : MonoBehaviour
     public float durationXY2 = 3.0f; // Duração da movimentação de X para Y
     public AudioSource scarySound;
     public AudioSource running;
+    private NavMeshAgent navMeshAgent;
+    private Transform playerTransform;
+    private bool finishAnim = false;
+
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // Certifique-se que o player tenha a tag "Player"
+        navMeshAgent.enabled = false; // Desabilitar o NavMeshAgent inicialmente
+    }
+
+    private void Start()
+    {
+        // Verifica se o MoveThroughPoints2 já foi ativado
+        if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1)
+        {
+            finishAnim = true;
+            navMeshAgent.enabled = true;
+        }
+    }
 
     public void Collider1Scene()
     {
@@ -24,7 +45,10 @@ public class JorginhoController : MonoBehaviour
     public void Collider2Scene()
     {
         gameObject.SetActive(true);
-        StartCoroutine(MoveThroughPoints2());
+        if (!finishAnim) // Verifica se já passou pela animação
+        {
+            StartCoroutine(MoveThroughPoints2());
+        }
     }
 
     IEnumerator MoveThroughPoints()
@@ -44,7 +68,8 @@ public class JorginhoController : MonoBehaviour
     IEnumerator MoveThroughPoints2()
     {
         yield return StartCoroutine(MoveFromTo(pointX2.position, pointY2.position, pointX2.rotation, pointY2.rotation, durationXY2));
-        gameObject.SetActive(false);
+        finishAnim = true;
+        PlayerPrefs.SetInt("MoveThroughPoints2Activated", 1); // Salva o estado
     }
 
     IEnumerator MoveFromTo(Vector3 start, Vector3 end, Quaternion startRotation, Quaternion endRotation, float duration)
@@ -63,8 +88,22 @@ public class JorginhoController : MonoBehaviour
         transform.rotation = endRotation;
     }
 
+    void Update()
+    {
+        if (ChavePortaoController.chavePortao && finishAnim)
+        {
+            navMeshAgent.enabled = true;
+        }
+
+        if (navMeshAgent.enabled)
+        {
+            navMeshAgent.SetDestination(playerTransform.position);
+        }
+    }
+
     void OnDestroy()
     {
         PlayerPrefs.DeleteKey("FirstColliderActivated"); // Limpa o estado do collider ao sair do jogo
+ //       PlayerPrefs.DeleteKey("MoveThroughPoints2Activated"); // Limpa o estado do MoveThroughPoints2 ao sair do jogo
     }
 }
