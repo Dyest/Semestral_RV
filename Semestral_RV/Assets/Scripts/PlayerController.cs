@@ -20,6 +20,8 @@ public class MoveController : MonoBehaviour
     private AudioSource audioSource;
     private bool estaAndando = false;
 
+    private JorginhoController jorginhoController;
+
     private void Awake()
     {
         myCamera = Camera.main.transform;
@@ -29,6 +31,8 @@ public class MoveController : MonoBehaviour
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        jorginhoController = FindObjectOfType<JorginhoController>();
+   
     }
 
     void Update()
@@ -78,6 +82,16 @@ public class MoveController : MonoBehaviour
             }
         }
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("FirstCollider"))
+        {
+            jorginhoController.Collider1Scene();
+            other.gameObject.SetActive(false);
+        }
+    }
+
 
     private IEnumerator TocarPassos()
     {
