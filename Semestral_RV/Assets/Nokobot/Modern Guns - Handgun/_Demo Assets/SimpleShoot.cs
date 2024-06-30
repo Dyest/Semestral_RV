@@ -9,7 +9,7 @@ public class SimpleShoot : MonoBehaviour
     public GameObject bulletPrefab;
     public GameObject casingPrefab;
     public GameObject muzzleFlashPrefab;
-    public AlvosController arma;
+    //public AlvosController arma;
 
     [Header("Location Refrences")]
     [SerializeField] private Animator gunAnimator;
@@ -34,7 +34,7 @@ public class SimpleShoot : MonoBehaviour
     void Update()
     {
         //If you want a different input, change it here
-        if (Input.GetButtonDown("Fire1") && arma.pegouArma == true)
+        if (Input.GetButtonDown("Fire1") && ChavePortaoController.arma == true)
         {
             //Calls animation on the gun that has the relevant animation events that will fire
             gunAnimator.SetTrigger("Fire");

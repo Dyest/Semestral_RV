@@ -11,9 +11,7 @@ public class ArmaController : MonoBehaviour
     public Camera fpsCamera;
     public Image mira;
     public bool pegouChave = false;
-    public AlvosController alvosController;
     public GameObject arma;
-
     public Canvas interagir;
     public Canvas coleta;
 
@@ -33,7 +31,7 @@ public class ArmaController : MonoBehaviour
         if (Physics.Raycast(origemRaio, 
                             fpsCamera.transform.forward, 
                             out hit, alcance)){
-            if (hit.collider.CompareTag("Alvo") && alvosController.pegouArma == true){
+            if (hit.collider.CompareTag("Alvo") && ChavePortaoController.arma == true){
                 mira.material.color = Color.red;
             }else if(hit.collider.CompareTag("Arma") ||
                 hit.collider.CompareTag("Key")){
@@ -45,7 +43,7 @@ public class ArmaController : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.Mouse0) && alvosController.pegouArma == true)
+        if (Input.GetKey(KeyCode.Mouse0) && ChavePortaoController.arma == true)
         {
             som.Play();
             Debug.Log("1");
@@ -69,7 +67,7 @@ public class ArmaController : MonoBehaviour
                     ChavePortaoController.chavePortao = true;
                 }
                 if (hit.collider.CompareTag("Arma")){
-                    alvosController.pegouArma = true;
+                    ChavePortaoController.arma = true;
                     arma.SetActive(true);
                     Destroy(hit.collider.gameObject); 
                 }
