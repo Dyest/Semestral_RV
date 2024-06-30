@@ -66,6 +66,7 @@ public class ArmaController : MonoBehaviour
                     pegouChave = true;
                     coleta.enabled = true;
                     Destroy(hit.collider.gameObject);
+                    ChavePortaoController.chavePortao = true;
                 }
                 if (hit.collider.CompareTag("Arma")){
                     alvosController.pegouArma = true;
