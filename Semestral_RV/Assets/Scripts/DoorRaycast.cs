@@ -14,7 +14,8 @@ public class DoorRaycast : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private Image crosshair = null;
     [SerializeField] private Canvas InteractCanvas = null; // Canvas para "interagir com a porta"
-    [SerializeField] private Canvas itemCanvas = null; // Canvas para "interagir com a chave" // Texto do Canvas para "interagir com a chave"
+    [SerializeField] private Canvas itemCanvas = null;
+    [SerializeField] private GameObject objectToActivate; // Canvas para "interagir com a chave" // Texto do Canvas para "interagir com a chave"
 
     private bool isCrosshairActive;
     private bool doOnce;
@@ -118,6 +119,11 @@ public class DoorRaycast : MonoBehaviour
     if (raycastedItem != null)
     {
         raycastedItem.SetActive(false);
+    }
+
+    if (objectToActivate != null)
+    {
+        objectToActivate.SetActive(true);
     }
 
     yield return new WaitForSeconds(2f);
