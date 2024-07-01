@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class JorginhoController : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class JorginhoController : MonoBehaviour
     public float durationXY2 = 3.0f; // Duração da movimentação de X para Y
     public AudioSource scarySound;
     public AudioSource running;
+    public AudioSource running_2;
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
+    private bool isRunningSoundPlaying = false;
     private bool finishAnim = false;
     private Animator animator;
 
@@ -89,30 +92,45 @@ public class JorginhoController : MonoBehaviour
 
         if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1 && ChavePortaoController.chaveSala)
         {
-            running.Play();
+            
             finishAnim = true;
             navMeshAgent.enabled = true;
         }
 
 
-       // if (ChavePortaoController.chaveSala )
-     //   {
-     //       navMeshAgent.enabled = true;
-     //   }
 
         if (navMeshAgent.enabled)
         {
+            if (!isRunningSoundPlaying)
+            {
+                running.Play();
+                isRunningSoundPlaying = true;
+                Debug.Log("Som de corrida tocando.");
+            }
+
             navMeshAgent.SetDestination(playerTransform.position);
 
             // Calcula a distância até o jogador
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
             // Se a distância ao jogador for menor ou igual a 1 unidade, inicia a animação de ataque
-            if (distanceToPlayer <= 2.0f)
+            if (distanceToPlayer <= 2.3f)
             {
                 animator.SetBool("Atacando", true);
+                Invoke("ExecuteAfterDelay", 0.5f);
+                
+
             }else{
                 animator.SetBool("Atacando", false);
+            }
+        }
+        else
+        {
+            if (isRunningSoundPlaying)
+            {
+                running.Stop();
+                isRunningSoundPlaying = false;
+                Debug.Log("Som de corrida parado.");
             }
         }
     }
@@ -122,4 +140,13 @@ public class JorginhoController : MonoBehaviour
         PlayerPrefs.DeleteKey("FirstColliderActivated"); // Limpa o estado do collider ao sair do jogo
         // Não limpar MoveThroughPoints2Activated para manter o estado entre cenas
     }
+
+    void ExecuteAfterDelay()
+    {
+        // Espera pelo tempo especificado
+        SceneManager.LoadScene("GameOver");
+    }
+
+
+    
 }
