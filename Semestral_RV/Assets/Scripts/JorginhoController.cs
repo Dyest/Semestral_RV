@@ -17,33 +17,35 @@ public class JorginhoController : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private Transform playerTransform;
     private bool finishAnim = false;
+    private Animator animator;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // Certifique-se que o player tenha a tag "Player"
         navMeshAgent.enabled = false; // Desabilitar o NavMeshAgent inicialmente
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        int moveThroughPoints2Activated = PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0);
-
-        // Log do valor para debug
-        Debug.Log("Valor de MoveThroughPoints2Activated: " + moveThroughPoints2Activated);
         // Verifica se o MoveThroughPoints2 já foi ativado
         if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1)
         {
             finishAnim = true;
-            navMeshAgent.enabled = true;
+            //navMeshAgent.enabled = true;
         }
     }
 
     public void Collider1Scene()
     {
-        StartCoroutine(MoveThroughPoints());
-        scarySound.Play();
-        running.Play();
+        if (!ChavePortaoController.chavePortao && PlayerPrefs.GetInt("Collider1SceneActivated", 0) == 0)
+        {
+            PlayerPrefs.SetInt("Collider1SceneActivated", 1); // Salva o estado para garantir que só execute uma vez
+            StartCoroutine(MoveThroughPoints());
+            scarySound.Play();
+            running.Play();
+        }
     }
 
     public void Collider2Scene()
@@ -102,12 +104,24 @@ public class JorginhoController : MonoBehaviour
         if (navMeshAgent.enabled)
         {
             navMeshAgent.SetDestination(playerTransform.position);
+
+            // Calcula a distância até o jogador
+            float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+            // Se a distância ao jogador for menor ou igual a 1 unidade, inicia a animação de ataque
+            if (distanceToPlayer <= 1.0f)
+            {
+                // Ativa a animação de ataque
+                animator.SetBool("Atacando", true);
+            }else{
+                animator.SetBool("Atacando", false);
+            }
         }
     }
 
     void OnDestroy()
     {
         PlayerPrefs.DeleteKey("FirstColliderActivated"); // Limpa o estado do collider ao sair do jogo
- //       PlayerPrefs.DeleteKey("MoveThroughPoints2Activated"); // Limpa o estado do MoveThroughPoints2 ao sair do jogo
+        // Não limpar MoveThroughPoints2Activated para manter o estado entre cenas
     }
 }
