@@ -27,6 +27,10 @@ public class JorginhoController : MonoBehaviour
 
     private void Start()
     {
+        int moveThroughPoints2Activated = PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0);
+
+        // Log do valor para debug
+        Debug.Log("Valor de MoveThroughPoints2Activated: " + moveThroughPoints2Activated);
         // Verifica se o MoveThroughPoints2 já foi ativado
         if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1)
         {
