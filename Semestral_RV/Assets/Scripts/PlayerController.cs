@@ -93,14 +93,14 @@ public class MoveController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("FirstCollider") && !ChavePortaoController.chavePortao)
+        if (other.CompareTag("FirstCollider") && !ChavePortaoController.chaveSala)
         {
             jorginhoController.Collider1Scene();
             other.gameObject.SetActive(false);
             PlayerPrefs.SetInt("FirstColliderActivated", 1); // Salva o estado
         }
 
-        if (other.CompareTag("SecondCollider") && ChavePortaoController.chavePortao)
+        if (other.CompareTag("SecondCollider") && ChavePortaoController.chaveSala)
         {
             jorginhoController.Collider2Scene();
             other.gameObject.SetActive(false);

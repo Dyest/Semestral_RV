@@ -27,15 +27,6 @@ public class JorginhoController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        // Verifica se o MoveThroughPoints2 já foi ativado
-        if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1)
-        {
-            finishAnim = true;
-            //navMeshAgent.enabled = true;
-        }
-    }
 
     public void Collider1Scene()
     {
@@ -51,10 +42,8 @@ public class JorginhoController : MonoBehaviour
     public void Collider2Scene()
     {
         gameObject.SetActive(true);
-        if (!finishAnim) // Verifica se já passou pela animação
-        {
-            StartCoroutine(MoveThroughPoints2());
-        }
+        StartCoroutine(MoveThroughPoints2());
+    
     }
 
     IEnumerator MoveThroughPoints()
@@ -74,6 +63,7 @@ public class JorginhoController : MonoBehaviour
     IEnumerator MoveThroughPoints2()
     {
         yield return StartCoroutine(MoveFromTo(pointX2.position, pointY2.position, pointX2.rotation, pointY2.rotation, durationXY2));
+
         finishAnim = true;
         PlayerPrefs.SetInt("MoveThroughPoints2Activated", 1); // Salva o estado
     }
@@ -96,10 +86,19 @@ public class JorginhoController : MonoBehaviour
 
     void Update()
     {
-        if (ChavePortaoController.chavePortao && finishAnim)
+
+        if (PlayerPrefs.GetInt("MoveThroughPoints2Activated", 0) == 1 && ChavePortaoController.chaveSala)
         {
+            running.Play();
+            finishAnim = true;
             navMeshAgent.enabled = true;
         }
+
+
+       // if (ChavePortaoController.chaveSala )
+     //   {
+     //       navMeshAgent.enabled = true;
+     //   }
 
         if (navMeshAgent.enabled)
         {
@@ -109,9 +108,8 @@ public class JorginhoController : MonoBehaviour
             float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
             // Se a distância ao jogador for menor ou igual a 1 unidade, inicia a animação de ataque
-            if (distanceToPlayer <= 1.0f)
+            if (distanceToPlayer <= 2.0f)
             {
-                // Ativa a animação de ataque
                 animator.SetBool("Atacando", true);
             }else{
                 animator.SetBool("Atacando", false);
