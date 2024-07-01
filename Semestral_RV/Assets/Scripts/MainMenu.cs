@@ -5,6 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+
+   private void Start()
+   {
+       ResetPlayerPrefs();
+   }
    public void PlayGame()
    {
         SceneManager.LoadScene(1);
@@ -18,5 +23,11 @@ public class MainMenu : MonoBehaviour
    public void mainMenu()
    {
         SceneManager.LoadScene(0);
+   }
+
+   private void ResetPlayerPrefs()
+   {
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
    }
 }
